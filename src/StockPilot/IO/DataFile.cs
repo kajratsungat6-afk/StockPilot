@@ -2,9 +2,7 @@ namespace StockPilot;
 
 public static class DataFile
 {
-    /// <summary>Reads a file and parses it. Nothing is changed by this method (read-only), so a failure leaves no partial state.
-    /// FileMissing: no such file/folder. IoError: file cannot be read. MalformedData: invalid JSON.
-    /// Every failure names the file.</summary>
+
     public static Result<T> Load<T>(string path, Func<string, T> parse)
     {
         ArgumentNullException.ThrowIfNull(parse);
@@ -14,7 +12,7 @@ public static class DataFile
         string text;
         try
         {
-            text = File.ReadAllText(path); // convenience API: opens and closes the file itself
+            text = File.ReadAllText(path); 
         }
         catch (Exception ex) when (ex is FileNotFoundException or DirectoryNotFoundException)
         {
