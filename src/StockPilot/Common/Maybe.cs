@@ -1,8 +1,6 @@
 namespace StockPilot;
 
-/// <summary>Maybe<T> models a lookup that may find nothing (lecture naming: Something / Nothing).
-/// Something carries a value that is allowed to be 0, false or "" (these are data, not absence).
-/// Only code in this assembly can add new cases (internal constructor).</summary>
+
 public abstract record Maybe<T>
 {
     internal Maybe() { }
@@ -36,7 +34,6 @@ public static class MaybeExtensions
         _ => throw new InvalidOperationException("Unknown Maybe case."),
     };
 
-    /// <summary>Required item: absence becomes a meaningful failure.</summary>
     public static Result<T> ToResult<T>(this Maybe<T> maybe, Error whenNothing) => maybe switch
     {
         Something<T> s => Result.Ok(s.Value),
