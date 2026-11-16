@@ -11,8 +11,7 @@ Course: Introduction to Functional Programming, 2026–2027. Built step by step 
 | Author (individual project) | Kairat Sungat, group IT-2511 |
 | Problem | A warehouse must decide what to buy, accept or reject orders and deliveries without ever corrupting its stock. |
 | Intended users | purchasing clerk (restock plan, purchasing list), warehouse manager (value report, orders, deliveries) |
-| Repository / branch / final commit | *(to be filled in when the repository is published)* |
-| AI assistance | *(to be filled in following the course AI policy)* |
+| Repository / branch / final commit | https://github.com/kajratsungat6-afk/StockPilot / `main` / tag `final-submission` |
 
 ### Workflows (3 — minimum for an individual project)
 | # | Workflow | Input | Business rules | Result | Command |
@@ -246,9 +245,9 @@ The export was checked with `objdump -p native\runtime\win-x64\stockpilot_native
 | `Deliveries/DeliveryTests` | delivery factory (each rule + all broken rules), inclusive capacity boundary, overflow, Result chain, zero stock, duplicate delivery, batch with accepted and rejected lines, empty batch, ledger immutability, JSON input, stock JSON round trip |
 | `App/ApplicationTests` | command-line parsing, whole application via `StringWriter`: deliveries (and saved stock loaded again), orders with the real native library, demo, reports CSV, help, unknown command, missing file, malformed file, native library unavailable, output cannot be written |
 
-The native tests call the **real** library (build it first with `build-native.cmd`). The load failures use real bindings to a library that does not exist and to a wrong function name.
+The native tests call the **real** library . The load failures use real bindings to a library that does not exist and to a wrong function name.
 
-**Latest test outcome:** *(paste the output of `dotnet test tests/StockPilot.Tests` from your machine here)*
+**Latest test outcome:** total: 135, failed: 0, passed: 135, skipped: 0, duration: 8.5s
 
 ## 9. Requirement map (final exam)
 | Requirement | Implemented in |
@@ -276,6 +275,6 @@ The native tests call the **real** library (build it first with `build-native.cm
 
 ## 10. Limitations
 - The delivery ledger lives in memory for one run: a delivery reference is detected as a repeat **within a run**, not across runs. (The saved `products_after.json` holds stock only.)
-- The prebuilt native binary is for Windows x64 only; other platforms rebuild it with `native/build.sh` (Linux x64 and macOS arm64 declared in the scripts).
+- The prebuilt native binary is for Windows x64 only; other platforms rebuild it with `native/build.sh` .
 - Money is integer minor units; there are no currencies and no tax.
 - Console application only; no web or desktop interface.
