@@ -22,12 +22,10 @@ public static class ErrorCodes
     public const string InvalidArguments = "InvalidArguments";
 }
 
-/// <summary>Structured error: a stable code for the program and a message for the person.</summary>
 public sealed record Error(string Code, string Message);
 
 public static class ErrorList
 {
-    /// <summary>Several validation errors become ONE error: the code of the first broken rule, all messages joined.</summary>
     public static Error Combine(ImmutableArray<Error> errors) =>
         errors.IsDefaultOrEmpty
             ? new Error(ErrorCodes.Internal, "Validation failed without a reason.")
