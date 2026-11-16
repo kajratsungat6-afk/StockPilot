@@ -1,6 +1,5 @@
 namespace StockPilot;
 
-/// <summary>Validation outcome of a delivery. Valid carries the validated value; Invalid carries structured errors.</summary>
 public abstract record DeliveryValidation
 {
     private DeliveryValidation() { }
@@ -11,10 +10,8 @@ public abstract record DeliveryValidation
     }
 }
 
-/// <summary>A validated delivery. The only way to get one is ValidatedDelivery.Create (private constructor).</summary>
 public sealed class ValidatedDelivery
 {
-    /// <summary>Warehouse capacity per product: stock after a delivery may be at most this many units (inclusive).</summary>
     public const int MaxStockPerSku = 10_000;
 
     public string Reference { get; }
@@ -32,9 +29,7 @@ public sealed class ValidatedDelivery
         ValueMinor = quantity * product.UnitPriceMinor;
     }
 
-    /// <summary>Rules: (1) reference present and not received before (ledger), (2) sku present and found (Maybe lookup),
-    /// (3) quantity present and > 0, (4) stock after the delivery not above MaxStockPerSku.
-    /// All broken rules are reported, each with its own error code.</summary>
+
     public static DeliveryValidation Create(DeliveryRequest? request, Catalog catalog, DeliveryLedger ledger)
     {
         ArgumentNullException.ThrowIfNull(catalog);
