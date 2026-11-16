@@ -1,0 +1,5 @@
+sku,name,quantity,reorder_level,deficit
+B-200,Screws,0,20,20
+A-100,Hammer,2,10,8
+A-200,Drill,5,6,1
+B-100,Nails box,10,10,0

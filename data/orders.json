@@ -1,0 +1,10 @@
+[
+  { "sku": "A-100", "quantity": 2 },
+  { "sku": "A-200", "quantity": 5 },
+  { "sku": "B-200", "quantity": 1 },
+  { "sku": "Z-999", "quantity": 1 },
+  { "sku": "C-100", "quantity": 0 },
+  { "sku": "C-100", "quantity": 40 },
+  { "sku": "C-100", "quantity": 20 },
+  { "quantity": 1 }
+]

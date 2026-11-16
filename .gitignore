@@ -1,0 +1,17 @@
+# build output
+bin/
+obj/
+TestResults/
+
+# IDE
+.vs/
+.idea/
+*.user
+
+# local secrets (never commit passwords or tokens)
+.env
+*.env
+secrets.*
+appsettings.Local.json
+*.pfx
+*.key

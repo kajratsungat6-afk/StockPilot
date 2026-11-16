@@ -1,0 +1,10 @@
+[
+  { "reference": "D-001", "sku": "B-200", "quantity": 40 },
+  { "reference": "D-002", "sku": "A-100", "quantity": 18 },
+  { "reference": "D-001", "sku": "A-200", "quantity": 5 },
+  { "reference": "D-003", "sku": "Z-999", "quantity": 5 },
+  { "reference": "D-004", "sku": "C-100", "quantity": 0 },
+  { "reference": "D-005", "sku": "C-200", "quantity": 9971 },
+  { "sku": "A-200", "quantity": 3 },
+  { "reference": "D-006", "sku": "A-200", "quantity": 7 }
+]

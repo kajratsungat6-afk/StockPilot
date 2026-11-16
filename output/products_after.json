@@ -1,0 +1,8 @@
+[
+  {"sku":"A-100","name":"Hammer","categoryId":"TOOLS","quantity":18,"unitPriceMinor":1500,"reorderLevel":10},
+  {"sku":"A-200","name":"Drill","categoryId":"TOOLS","quantity":7,"unitPriceMinor":25000,"reorderLevel":6},
+  {"sku":"B-100","name":"Nails box","categoryId":"HARDWARE","quantity":10,"unitPriceMinor":300,"reorderLevel":10},
+  {"sku":"B-200","name":"Screws","categoryId":"HARDWARE","quantity":40,"unitPriceMinor":200,"reorderLevel":20},
+  {"sku":"C-100","name":"Tape","categoryId":"SUPPLIES","quantity":10,"unitPriceMinor":400,"reorderLevel":10},
+  {"sku":"C-200","name":"Glue","categoryId":"SUPPLIES","quantity":30,"unitPriceMinor":350,"reorderLevel":5}
+]

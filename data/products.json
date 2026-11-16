@@ -1,0 +1,10 @@
+[
+  { "sku": "A-100", "name": "Hammer",    "categoryId": "TOOLS",    "quantity": 2,  "unitPriceMinor": 1500,  "reorderLevel": 10 },
+  { "sku": "A-200", "name": "Drill",     "categoryId": "TOOLS",    "quantity": 5,  "unitPriceMinor": 25000, "reorderLevel": 6 },
+  { "sku": "B-100", "name": "Nails box", "categoryId": "HARDWARE", "quantity": 10, "unitPriceMinor": 300,   "reorderLevel": 10 },
+  { "sku": "B-200", "name": "Screws",    "categoryId": "HARDWARE", "quantity": 0,  "unitPriceMinor": 200,   "reorderLevel": 20 },
+  { "sku": "C-100", "name": "Tape",      "categoryId": "SUPPLIES", "quantity": 50, "unitPriceMinor": 400,   "reorderLevel": 10 },
+  { "sku": "C-200", "name": "Glue",      "categoryId": "SUPPLIES", "quantity": 30, "unitPriceMinor": 350,   "reorderLevel": 5 },
+  { "sku": "D-100", "name": "Saw",       "categoryId": "TOOLS",    "quantity": 3,  "unitPriceMinor": -500,  "reorderLevel": 5 },
+  { "name": "Pliers", "categoryId": "TOOLS", "quantity": 1, "unitPriceMinor": 900, "reorderLevel": 5 }
+]

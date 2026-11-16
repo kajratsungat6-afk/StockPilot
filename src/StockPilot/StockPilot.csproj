@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <!-- Native library: the folder depends on the operating system (64-bit). Built by native/build.ps1 or native/build.sh -->
+  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))"><NativeRid>win-x64</NativeRid></PropertyGroup>
+  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Linux'))"><NativeRid>linux-x64</NativeRid></PropertyGroup>
+  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))"><NativeRid>osx-arm64</NativeRid></PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\data\products.json" Link="data\products.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\data\orders.json" Link="data\orders.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\data\deliveries.json" Link="data\deliveries.json" CopyToOutputDirectory="PreserveNewest" />
+    <!-- copies stockpilot_native.dll / libstockpilot_native.so next to the executable on every build -->
+    <None Include="..\..\native\runtime\$(NativeRid)\*" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>
