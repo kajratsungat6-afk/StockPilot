@@ -5,8 +5,7 @@ public interface IFeeCalculator
     Result<long> Calculate(long orderTotalMinor, int quantity);
 }
 
-/// <summary>Adapter around the native call. Validates the domain input BEFORE calling C and translates
-/// loading / binding problems into Failure values (NativeUnavailable); a -1 from C becomes NativeRejected.</summary>
+
 public sealed class NativeFeeCalculator : IFeeCalculator
 {
     public const long MaxTotalMinor = 1_000_000_000;
@@ -14,10 +13,8 @@ public sealed class NativeFeeCalculator : IFeeCalculator
 
     private readonly Func<int, int, int> _call;
 
-    /// <summary>Uses the real native library.</summary>
     public NativeFeeCalculator() : this(NativeMethods.CalcHandlingFee) { }
 
-    /// <summary>Takes the function to call, so a different binding can be supplied (used to test a fresh load failure).</summary>
     public NativeFeeCalculator(Func<int, int, int> call)
     {
         ArgumentNullException.ThrowIfNull(call);
