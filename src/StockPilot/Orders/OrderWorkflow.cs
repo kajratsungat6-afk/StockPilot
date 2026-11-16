@@ -1,9 +1,7 @@
 namespace StockPilot;
 
-/// <summary>Result of a successful confirmation: the new state and the new catalog.</summary>
 public sealed record OrderConfirmation(Reservation.Confirmed State, Catalog Catalog);
 
-/// <summary>Display model created by Map from a successful confirmation. FeeMinor comes from the native library.</summary>
 public sealed record OrderReceipt(
     string Sku, string Name, int Quantity, long TotalMinor, long FeeMinor, DateTimeOffset ConfirmedAt,
     Reservation.Confirmed State, Catalog Catalog)
@@ -13,15 +11,12 @@ public sealed record OrderReceipt(
 
 public sealed record OrderOutcome(OrderRequest? Request, Reservation State, Result<OrderReceipt> Result);
 
-/// <summary>One step of the lazy order processing: the outcome and the catalog after this order.</summary>
 public sealed record OrderStep(OrderOutcome Outcome, Catalog CatalogAfter);
 
 public sealed record OrderBatch(Catalog Catalog, ImmutableArray<OrderOutcome> Outcomes);
 
-/// <summary>Pure workflow. No Console, no files, no clock: the time is passed in.</summary>
 public static class OrderWorkflow
 {
-    /// <summary>OrderValidation -> Result: Invalid becomes one Failure (code of the first broken rule, all messages joined).</summary>
     public static Result<ValidatedOrder> ToResult(this OrderValidation validation) => validation switch
     {
         OrderValidation.Valid v => Result.Ok(v.Order),
@@ -37,7 +32,6 @@ public static class OrderWorkflow
             _ => new Reservation.Rejected(ImmutableArray.Create("Unknown validation outcome.")),
         };
 
-    /// <summary>Pending -> Confirmed; Confirmed (repeat) and Rejected are NotAllowed (InvalidState).</summary>
     public static TransitionOutcome Confirm(Reservation current, Catalog catalog, DateTimeOffset at)
     {
         ArgumentNullException.ThrowIfNull(current);
@@ -73,7 +67,6 @@ public static class OrderWorkflow
         }
     }
 
-    /// <summary>The state transition as a Result, so that it can be used with Bind.</summary>
     public static Result<OrderConfirmation> ConfirmReservation(Reservation current, Catalog catalog, DateTimeOffset at) =>
         Confirm(current, catalog, at) switch
         {
@@ -85,36 +78,28 @@ public static class OrderWorkflow
             _ => Result.Fail<OrderConfirmation>(ErrorCodes.Internal, "Unknown transition outcome."),
         };
 
-    /// <summary>Domain limit for one order (minor units). Lower than the native library's own limit.</summary>
     public const long MaxOrderTotalMinor = 100_000_000;
 
-    /// <summary>THE RESULT CHAIN: validate (factory) -> Ensure limit (extension) -> Bind fee (native C) ->
-    /// Bind confirm -> Map receipt. A failure at any step skips all later steps and is returned unchanged,
-    /// so nothing is confirmed unless the fee was calculated.</summary>
+  
     public static Result<OrderReceipt> Process(OrderRequest? request, Catalog catalog, IFeeCalculator fees, DateTimeOffset at)
     {
         ArgumentNullException.ThrowIfNull(fees);
         return ValidatedOrder.Create(request, catalog)
-            .ToResult()                                                                                  // Result<ValidatedOrder>
             .Ensure(order => order.TotalMinor <= MaxOrderTotalMinor,
                     new Error(ErrorCodes.OrderTooLarge, $"Order total exceeds the limit of {MaxOrderTotalMinor} minor units."))
-            .Bind(order => fees.Calculate(order.TotalMinor, order.Quantity)                              // Result<long> (native call)
-                .Bind(fee => ConfirmReservation(new Reservation.Pending(order), catalog, at)             // Result<OrderConfirmation>
-                    .Map(confirmation => ToReceipt(confirmation, fee))));                                // Result<OrderReceipt>
+            .Bind(order => fees.Calculate(order.TotalMinor, order.Quantity)                              
+                .Bind(fee => ConfirmReservation(new Reservation.Pending(order), catalog, at)             
+                    .Map(confirmation => ToReceipt(confirmation, fee))));                               
     }
 
     private static OrderReceipt ToReceipt(OrderConfirmation c, long fee) =>
         new(c.State.Order.Sku, c.State.Order.Name, c.State.Order.Quantity, c.State.Order.TotalMinor, fee,
             c.State.ConfirmedAt, c.State, c.Catalog);
 
-    /// <summary>Required lookup: a missing product becomes an ItemNotFound failure; zero stock is a valid success.</summary>
     public static Result<int> StockLevel(Catalog catalog, string sku) =>
         catalog.StockOf(sku).ToResult(new Error(ErrorCodes.ItemNotFound, $"Unknown sku '{sku}'."));
 
-    /// <summary>DEFERRED (yield return). Arguments are checked now; NO order is processed until the result is enumerated.
-    /// Each iteration step processes exactly one order and yields its outcome. Enumerating the result twice processes the
-    /// orders twice (the work is pure and the catalog is immutable, but the source sequence is read again),
-    /// so use ProcessAll when a snapshot is needed.</summary>
+
     public static IEnumerable<OrderStep> ProcessLazily(
         IEnumerable<OrderRequest?> requests, Catalog catalog, IFeeCalculator fees, DateTimeOffset at)
     {
@@ -149,8 +134,7 @@ public static class OrderWorkflow
         }
     }
 
-    /// <summary>MATERIALISATION POINT: runs the lazy sequence once, keeps only the outcomes and the LAST catalog
-    /// (intermediate catalogs are not retained), and returns a stable snapshot that can be used repeatedly.</summary>
+  
     public static OrderBatch ProcessAll(IEnumerable<OrderRequest?> requests, Catalog catalog, IFeeCalculator fees, DateTimeOffset at)
     {
         var outcomes = ImmutableArray.CreateBuilder<OrderOutcome>();
