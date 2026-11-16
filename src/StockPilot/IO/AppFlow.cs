@@ -1,6 +1,5 @@
 namespace StockPilot;
 
-/// <summary>All data loaded for one run. Deliveries is empty when the command does not use them.</summary>
 public sealed record LoadedData(
     IReadOnlyList<RawProduct?> Products,
     IReadOnlyList<OrderRequest?> Orders,
@@ -12,9 +11,7 @@ public sealed record LoadedData(
 
 public static class AppFlow
 {
-    /// <summary>Loads the files a command needs. The products file is read first; if it fails, the other files are not
-    /// even read (Bind skips them). A null path means "this file is not needed" (empty list); an empty path is an error.
-    /// The caller receives either ALL the data or a Failure — never half of it.</summary>
+
     public static Result<LoadedData> Load(string productsPath, string? ordersPath, string? deliveriesPath = null) =>
         DataFile.Load<IReadOnlyList<RawProduct?>>(productsPath, ProductInput.ParseJson)
             .Bind(products => LoadOptional(ordersPath, OrderInput.ParseJson)
