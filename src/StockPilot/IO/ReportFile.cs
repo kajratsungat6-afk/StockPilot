@@ -2,11 +2,7 @@ namespace StockPilot;
 
 public static class ReportFile
 {
-    /// <summary>Writes text to a file atomically: first to "path.tmp", then moves it over the target.
-    /// OWNER and RELEASE POINT: this method owns the FileStream and the StreamWriter; they are released (flushed and
-    /// closed) at the end of the using block — on success AND when an exception is thrown inside it.
-    /// On failure the temporary file is removed and the previous target file is untouched.
-    /// openTemp lets a test supply its own stream to observe disposal.</summary>
+
     public static Result<string> Save(string path, string content, Func<string, FileStream>? openTemp = null)
     {
         ArgumentNullException.ThrowIfNull(content);
