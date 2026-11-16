@@ -1,7 +1,6 @@
 namespace StockPilot;
 
-/// <summary>Pure text formatting of stock (JSON, same schema as data/products.json, so the file can be loaded again).
-/// Writing the text to a file happens in ReportFile. Line endings are always "\n", on every operating system.</summary>
+
 public static class ProductFormats
 {
     private static readonly JsonSerializerOptions Options = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
