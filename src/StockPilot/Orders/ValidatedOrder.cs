@@ -1,6 +1,5 @@
 namespace StockPilot;
 
-/// <summary>A validated order. The only way to get one is ValidatedOrder.Create.</summary>
 public sealed class ValidatedOrder
 {
     public string Sku { get; }
@@ -18,8 +17,7 @@ public sealed class ValidatedOrder
         TotalMinor = quantity * product.UnitPriceMinor;
     }
 
-    /// <summary>Rules: (1) sku present and found (Maybe lookup), (2) quantity present and > 0,
-    /// (3) quantity not above stock. All broken rules are reported, each with its own error code.</summary>
+
     public static OrderValidation Create(OrderRequest? request, Catalog catalog)
     {
         ArgumentNullException.ThrowIfNull(catalog);
