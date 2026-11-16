@@ -1,7 +1,6 @@
 namespace StockPilot;
 
-/// <summary>Validation outcome. Valid carries the validated value; Invalid carries structured errors.
-/// Meaning: "is this REQUEST acceptable?" (a decision about input).</summary>
+
 public abstract record OrderValidation
 {
     private OrderValidation() { }
@@ -12,8 +11,7 @@ public abstract record OrderValidation
     }
 }
 
-/// <summary>Workflow state: "where is this ORDER in its life?" (Pending, Confirmed or Rejected).
-/// This is different from a validation outcome and from a Result (success/failure of ONE operation).</summary>
+
 public abstract record Reservation
 {
     private Reservation() { }
