@@ -1,6 +1,5 @@
 namespace StockPilot;
 
-/// <summary>Immutable stock snapshot. Every change returns a NEW Catalog.</summary>
 public sealed class Catalog
 {
     private readonly ImmutableDictionary<string, Product> _items;
@@ -19,14 +18,12 @@ public sealed class Catalog
 
     public IEnumerable<Product> Products => _items.Values.OrderBy(p => p.Sku, StringComparer.Ordinal);
 
-    /// <summary>Real lookup: Something(product) or Nothing. No null, no default(T).</summary>
     public Maybe<Product> Find(string sku)
     {
         if (sku is not null && _items.TryGetValue(sku, out var product)) return Maybe.Some(product);
         return Maybe.None<Product>();
     }
 
-    /// <summary>Stock of a product. A product with 0 units is Something(0), not Nothing.</summary>
     public Maybe<int> StockOf(string sku)
     {
         if (sku is not null && _items.TryGetValue(sku, out var product)) return Maybe.Some(product.Quantity);
